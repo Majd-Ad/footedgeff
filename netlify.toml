@@ -1,10 +1,5 @@
-# ══════════════════════════════════════════════════════════════
-#  FootEdge PRO — Netlify configuration
-#  index.html must be in /public/ folder in your repo
-#  Functions live at /.netlify/functions/<n>
-# ══════════════════════════════════════════════════════════════
-
 [build]
+  base      = ""
   publish   = "public"
   functions = "netlify/functions"
   command   = ""
@@ -66,22 +61,3 @@
   from   = "/*"
   to     = "/index.html"
   status = 200
-
-# ── Security headers ──
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options        = "DENY"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy        = "strict-origin-when-cross-origin"
-    Permissions-Policy     = "camera=(), microphone=(), geolocation=()"
-
-[[headers]]
-  for = "/.netlify/functions/*"
-  [headers.values]
-    Cache-Control = "public, max-age=60, stale-while-revalidate=30"
-
-[[headers]]
-  for = "/index.html"
-  [headers.values]
-    Cache-Control = "public, max-age=300, stale-while-revalidate=60"

@@ -1,0 +1,90 @@
+# ══════════════════════════════════════════════════════════════
+#  FootEdge PRO — Netlify configuration
+#  index.html must be in /public/ folder in your repo
+#  Functions live at /.netlify/functions/<n>
+# ══════════════════════════════════════════════════════════════
+
+[build]
+  publish   = "public"          # Put index.html inside /public/
+  functions = "netlify/functions"
+  command   = ""                # No build step — pure static + functions
+
+[functions]
+  node_bundler = "esbuild"      # Faster cold starts
+
+# ── API aliases (clean URLs) ──
+[[redirects]]
+  from   = "/api/fixtures"
+  to     = "/.netlify/functions/fixtures"
+  status = 200
+
+[[redirects]]
+  from   = "/api/results"
+  to     = "/.netlify/functions/results"
+  status = 200
+
+[[redirects]]
+  from   = "/api/live"
+  to     = "/.netlify/functions/live"
+  status = 200
+
+[[redirects]]
+  from   = "/api/detail"
+  to     = "/.netlify/functions/detail"
+  status = 200
+
+[[redirects]]
+  from   = "/api/status"
+  to     = "/.netlify/functions/status"
+  status = 200
+
+# ── Legacy paths — same shape as server.py endpoints ──
+[[redirects]]
+  from   = "/fixtures"
+  to     = "/.netlify/functions/fixtures"
+  status = 200
+
+[[redirects]]
+  from   = "/results"
+  to     = "/.netlify/functions/results"
+  status = 200
+
+[[redirects]]
+  from   = "/live"
+  to     = "/.netlify/functions/live"
+  status = 200
+
+[[redirects]]
+  from   = "/detail/*"
+  to     = "/.netlify/functions/detail?id=:splat"
+  status = 200
+
+[[redirects]]
+  from   = "/status"
+  to     = "/.netlify/functions/status"
+  status = 200
+
+# ── SPA catch-all — always serve index.html for unknown paths ──
+[[redirects]]
+  from   = "/*"
+  to     = "/index.html"
+  status = 200
+
+# ── Security headers ──
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options        = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy        = "strict-origin-when-cross-origin"
+    Permissions-Policy     = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Cache-Control = "public, max-age=60, stale-while-revalidate=30"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=300, stale-while-revalidate=60"

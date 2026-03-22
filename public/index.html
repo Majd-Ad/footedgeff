@@ -1305,7 +1305,7 @@ const F_GZ='H4sIANgjvmkC/8S93ZIcx7Gt+SptvBb7ZEZE/ukOQJHUHBUpGsGtMtOZuUg2ikBtNLo4
 const API_KEY='7ab49fa91e65453bac67f56a102213b9';
 // ── SERVER URL — change this to your Railway URL after deploying ──
 const SERVER_URL=(()=>{
-  if(location.hostname==='localhost'||location.hostname==='127.0.0.1') return 'http://localhost:8000';
+  if(location.hostname==='localhost'||location.hostname==='127.0.0.1')return 'http://localhost:8000';
   return '';
 })();
 const DATA_LEAGUES=new Set(['Premier League','La Liga','Serie A','Bundesliga','Ligue 1','Champions League','Europa League','Conference League']);
@@ -1395,11 +1395,9 @@ async function fetchFixtures(){
   };
 
   // ── 1. Netlify function (production) or local server (dev) ──
-  const _fixturesEndpoint = SERVER_URL
-    ? SERVER_URL+'/fixtures'
-    : '/.netlify/functions/fixtures';
+  const _fxUrl=SERVER_URL?SERVER_URL+'/fixtures':'/.netlify/functions/fixtures';
   try{
-    const r=await fetch(_fixturesEndpoint,{signal:AbortSignal.timeout(6000)});
+    const r=await fetch(_fxUrl,{signal:AbortSignal.timeout(7000)});
     if(r.ok){
       const d=await r.json();
       const list=(d.fixtures||[]).filter(m=>m.home&&m.away&&
@@ -2192,7 +2190,7 @@ function renderToday(){
         <div class="es-icon">📡</div>
         <div class="es-title">No Fixtures Yet</div>
         <div class="es-sub">${todayFmt}<br><br>
-      Fixtures load automatically — tap Refresh to fetch today's matches.</div>
+      Tap Refresh to load today's fixtures.</div>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px">
           <button class="btn btnp" onclick="doRefresh()">↻ Refresh</button>
           <button class="btn" onclick="goPage('manual')">+ Add Match</button>
@@ -2665,10 +2663,9 @@ async function syncLiveResults(){
     let results=[];
 
     // Try server first
-    // Try Netlify function or local server
-    const _resultsUrl=SERVER_URL?SERVER_URL+'/results?days=7':'/.netlify/functions/results?days=7';
+    const _resUrl=SERVER_URL?SERVER_URL+'/results?days=7':'/.netlify/functions/results?days=7';
     try{
-      const r=await fetch(_resultsUrl,{signal:AbortSignal.timeout(8000)});
+      const r=await fetch(_resUrl,{signal:AbortSignal.timeout(8000)});
       if(r.ok){ const d=await r.json(); results=d.results||[]; }
     }catch(e){}
 
@@ -3097,8 +3094,8 @@ async function fetchMatchDetail(eventId, uid){
     </div>`;
 
   try{
-    const _detailUrl=SERVER_URL?SERVER_URL+`/detail/${eventId}`:`/.netlify/functions/detail?id=${eventId}`;
-    const r=await fetch(_detailUrl,{signal:AbortSignal.timeout(8000)});
+    const _detUrl=SERVER_URL?SERVER_URL+`/detail/${eventId}`:`/.netlify/functions/detail?id=${eventId}`;
+    const r=await fetch(_detUrl,{signal:AbortSignal.timeout(8000)});
     if(!r.ok){ el.innerHTML='<div style="color:var(--txt3);font-size:11px;padding:8px">Detail unavailable</div>'; return; }
     const d=await r.json();
     _detailData[uid]=d;

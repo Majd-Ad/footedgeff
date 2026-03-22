@@ -5,66 +5,63 @@
 # ══════════════════════════════════════════════════════════════
 
 [build]
-  publish   = "public"          # Put index.html inside /public/
+  publish   = "public"
   functions = "netlify/functions"
-  command   = ""                # No build step — pure static + functions
+  command   = ""
 
 [functions]
-  node_bundler = "esbuild"      # Faster cold starts
+  node_bundler = "esbuild"
 
-# ── API aliases (clean URLs) ──
 [[redirects]]
-  from   = "/api/fixtures"
-  to     = "/.netlify/functions/fixtures"
+  from = "/api/fixtures"
+  to   = "/.netlify/functions/fixtures"
   status = 200
 
 [[redirects]]
-  from   = "/api/results"
-  to     = "/.netlify/functions/results"
+  from = "/api/results"
+  to   = "/.netlify/functions/results"
   status = 200
 
 [[redirects]]
-  from   = "/api/live"
-  to     = "/.netlify/functions/live"
+  from = "/api/live"
+  to   = "/.netlify/functions/live"
   status = 200
 
 [[redirects]]
-  from   = "/api/detail"
-  to     = "/.netlify/functions/detail"
+  from = "/api/detail"
+  to   = "/.netlify/functions/detail"
   status = 200
 
 [[redirects]]
-  from   = "/api/status"
-  to     = "/.netlify/functions/status"
-  status = 200
-
-# ── Legacy paths — same shape as server.py endpoints ──
-[[redirects]]
-  from   = "/fixtures"
-  to     = "/.netlify/functions/fixtures"
+  from = "/api/status"
+  to   = "/.netlify/functions/status"
   status = 200
 
 [[redirects]]
-  from   = "/results"
-  to     = "/.netlify/functions/results"
+  from = "/fixtures"
+  to   = "/.netlify/functions/fixtures"
   status = 200
 
 [[redirects]]
-  from   = "/live"
-  to     = "/.netlify/functions/live"
+  from = "/results"
+  to   = "/.netlify/functions/results"
   status = 200
 
 [[redirects]]
-  from   = "/detail/*"
-  to     = "/.netlify/functions/detail?id=:splat"
+  from = "/live"
+  to   = "/.netlify/functions/live"
   status = 200
 
 [[redirects]]
-  from   = "/status"
-  to     = "/.netlify/functions/status"
+  from = "/detail/*"
+  to   = "/.netlify/functions/detail?id=:splat"
   status = 200
 
-# ── SPA catch-all — always serve index.html for unknown paths ──
+[[redirects]]
+  from = "/status"
+  to   = "/.netlify/functions/status"
+  status = 200
+
 [[redirects]]
   from   = "/*"
   to     = "/index.html"

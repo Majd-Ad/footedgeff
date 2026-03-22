@@ -1306,7 +1306,7 @@ const API_KEY='7ab49fa91e65453bac67f56a102213b9';
 // ── SERVER URL — change this to your Railway URL after deploying ──
 const SERVER_URL=(()=>{
   if(location.hostname==='localhost'||location.hostname==='127.0.0.1') return 'http://localhost:8000';
-  return ''; // On Netlify: use /.netlify/functions/* directly
+  return '';
 })();
 const DATA_LEAGUES=new Set(['Premier League','La Liga','Serie A','Bundesliga','Ligue 1','Champions League','Europa League','Conference League']);
 
